@@ -12,19 +12,16 @@ pipeline {
 
         stage('Setup Python') {
             steps {
-                // Create virtual environment
                 sh 'python -m venv venv'
-
-                // Use Windows-style path for venv Python
-                sh 'venv\\Scripts\\python.exe -m pip install --upgrade pip'
-                sh 'venv\\Scripts\\python.exe -m pip install -r requirements.txt'
+                sh 'source venv/Scripts/activate && python -m pip install --upgrade pip'
+                sh 'source venv/Scripts/activate && pip install -r requirements.txt'
             }
         }
 
         stage('Run Tests') {
             steps {
-                // Run tests with venv Python
-                sh 'venv\\Scripts\\python.exe -m pytest test/ --html=report.html --self-contained-html'
+                // Updated to the correct folder
+                sh 'source venv/Scripts/activate && pytest test/ --html=report.html --self-contained-html'
             }
         }
 
