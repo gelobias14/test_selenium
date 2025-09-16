@@ -14,16 +14,9 @@ pipeline {
             steps {
                 bat """
                     echo ===== Running Selenium Tests =====
-
-                    REM -- Upgrade pip if needed --
                     python -m pip install --upgrade pip
-
-                    REM -- Install requirements --
                     python -m pip install -r requirements.txt
-
-                    REM -- Run your updated Selenium script --
-                    python test_google.py
-
+                    python test/test_google.py
                     echo ===== Tests Completed =====
                 """
             }
@@ -31,7 +24,7 @@ pipeline {
 
         stage('Archive Results') {
             steps {
-                archiveArtifacts artifacts: 'report.html', fingerprint: true
+                archiveArtifacts artifacts: 'test/report.html', fingerprint: true
             }
         }
     }
