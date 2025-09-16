@@ -16,7 +16,7 @@ pipeline {
                     echo ===== Running Selenium Tests =====
                     python -m pip install --upgrade pip
                     python -m pip install -r requirements.txt
-                    python test/test_google.py
+                    pytest test/ --html=report.html --self-contained-html
                     echo ===== Tests Completed =====
                 """
             }
@@ -24,7 +24,8 @@ pipeline {
 
         stage('Archive Results') {
             steps {
-                archiveArtifacts artifacts: 'test/report.html', fingerprint: true
+                // Archive report.html from the workspace root
+                archiveArtifacts artifacts: 'report.html', fingerprint: true
             }
         }
     }
