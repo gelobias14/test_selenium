@@ -15,18 +15,16 @@ pipeline {
                 // Create virtual environment
                 sh 'python -m venv venv'
 
-                // Upgrade pip using venv Python directly
-                sh './venv/bin/python -m pip install --upgrade pip || venv\\Scripts\\python -m pip install --upgrade pip'
-
-                // Install requirements using venv Python
-                sh './venv/bin/python -m pip install -r requirements.txt || venv\\Scripts\\python -m pip install -r requirements.txt'
+                // Use Windows-style path for venv Python
+                sh 'venv\\Scripts\\python.exe -m pip install --upgrade pip'
+                sh 'venv\\Scripts\\python.exe -m pip install -r requirements.txt'
             }
         }
 
         stage('Run Tests') {
             steps {
-                // Run tests using venv Python directly
-                sh './venv/bin/python -m pytest test/ --html=report.html --self-contained-html || venv\\Scripts\\python -m pytest test/ --html=report.html --self-contained-html'
+                // Run tests with venv Python
+                sh 'venv\\Scripts\\python.exe -m pytest test/ --html=report.html --self-contained-html'
             }
         }
 
