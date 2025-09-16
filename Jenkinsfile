@@ -10,18 +10,9 @@ pipeline {
             }
         }
 
-        stage('Setup Python') {
-            steps {
-                sh 'python -m venv venv'
-                sh 'source venv/Scripts/activate && python -m pip install --upgrade pip'
-                sh 'source venv/Scripts/activate && pip install -r requirements.txt'
-            }
-        }
-
         stage('Run Tests') {
             steps {
-                // Updated to the correct folder
-                sh 'source venv/Scripts/activate && pytest test/ --html=report.html --self-contained-html'
+                bat 'run_tests.bat'
             }
         }
 
