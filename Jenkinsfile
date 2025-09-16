@@ -20,7 +20,8 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                sh 'source venv/Scripts/activate && pytest tests/ --html=report.html --self-contained-html'
+                // Updated to the correct folder
+                sh 'source venv/Scripts/activate && pytest test/ --html=report.html --self-contained-html'
             }
         }
 
