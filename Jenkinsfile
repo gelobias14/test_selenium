@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main',
+                git branch: 'windows',
                     url: 'https://github.com/gelobias14/test_selenium.git',
                     credentialsId: 'GIT_CRED'
             }
