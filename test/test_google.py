@@ -9,7 +9,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 def test_google_search():
     options = Options()
-    options.add_argument("--headless")
+    options.add_argument("--headless")  # Important for Jenkins
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
 
