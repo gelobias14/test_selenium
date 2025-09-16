@@ -8,7 +8,9 @@ pipeline {
     stages {
         stage('Checkout SCM') {
             steps {
-                git url: 'https://github.com/gelobias14/test_selenium.git', credentialsId: 'GIT_CRED'
+                git branch: 'main', 
+                    url: 'https://github.com/gelobias14/test_selenium.git', 
+                    credentialsId: 'GIT_CRED'
             }
         }
 
