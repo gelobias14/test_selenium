@@ -12,16 +12,21 @@ pipeline {
 
         stage('Setup Python') {
             steps {
+                // Create virtual environment
                 sh 'python -m venv venv'
-                sh 'source venv/Scripts/activate && python -m pip install --upgrade pip'
-                sh 'source venv/Scripts/activate && pip install -r requirements.txt'
+
+                // Upgrade pip using venv Python directly
+                sh './venv/bin/python -m pip install --upgrade pip || venv\\Scripts\\python -m pip install --upgrade pip'
+
+                // Install requirements using venv Python
+                sh './venv/bin/python -m pip install -r requirements.txt || venv\\Scripts\\python -m pip install -r requirements.txt'
             }
         }
 
         stage('Run Tests') {
             steps {
-                // Updated to the correct folder
-                sh 'source venv/Scripts/activate && pytest test/ --html=report.html --self-contained-html'
+                // Run tests using venv Python directly
+                sh './venv/bin/python -m pytest test/ --html=report.html --self-contained-html || venv\\Scripts\\python -m pytest test/ --html=report.html --self-contained-html'
             }
         }
 
