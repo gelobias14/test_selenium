@@ -13,14 +13,14 @@ pipeline {
         stage('Setup Python') {
             steps {
                 sh 'python -m venv venv'
-                sh '. venv/bin/activate && pip install --upgrade pip'
-                sh '. venv/bin/activate && pip install -r requirements.txt'
+                sh 'source venv/Scripts/activate && python -m pip install --upgrade pip'
+                sh 'source venv/Scripts/activate && pip install -r requirements.txt'
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh '. venv/bin/activate && pytest tests/ --html=report.html --self-contained-html'
+                sh 'source venv/Scripts/activate && pytest tests/ --html=report.html --self-contained-html'
             }
         }
 
