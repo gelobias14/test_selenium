@@ -12,7 +12,20 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                bat 'run_tests.bat'
+                bat """
+                    echo ===== Running Selenium Tests =====
+
+                    REM -- Upgrade pip if needed --
+                    python -m pip install --upgrade pip
+
+                    REM -- Install requirements --
+                    python -m pip install -r requirements.txt
+
+                    REM -- Run your updated Selenium script --
+                    python test_google.py
+
+                    echo ===== Tests Completed =====
+                """
             }
         }
 
