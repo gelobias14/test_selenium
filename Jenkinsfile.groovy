@@ -4,10 +4,9 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Pull code from Bitbucket
                 git branch: 'main',
-                    url: 'https://bitbucket.org/your-team/your-repo.git',
-                    credentialsId: 'bitbucket-creds'
+                    url: 'https://github.com/gelobias14/test_selenium.git',
+                    credentialsId: 'GIT_CRED'
             }
         }
 
@@ -28,7 +27,6 @@ pipeline {
         stage('Archive Results') {
             steps {
                 archiveArtifacts artifacts: 'report.html', fingerprint: true
-                junit 'tests/*.xml' // if you use --junitxml in pytest
             }
         }
     }
