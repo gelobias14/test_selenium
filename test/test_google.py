@@ -5,27 +5,35 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-service = Service(executable_path="C:/WebDriver/msedgedriver.exe")
-options = Options()
-options.use_chromium = True
-options.add_argument("--headless")
-options.add_argument("--disable-gpu")
-options.add_argument("--window-size=1920,1080")
-options.add_argument("--no-sandbox")  # sometimes needed on Jenkins
-options.add_argument("--disable-dev-shm-usage")
+def test_python_org():
+    print("Starting Python.org test...")
 
-driver = webdriver.Edge(service=service, options=options)
+    service = Service(executable_path="C:/WebDriver/msedgedriver.exe")
+    options = Options()
+    options.use_chromium = True
+    options.add_argument("--headless")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--window-size=1920,1080")
 
-try:
-    driver.get("https://www.python.org")
-    search_box = driver.find_element(By.ID, "id-search-field")
-    search_box.send_keys("Jenkins")
-    search_box.submit()
+    driver = webdriver.Edge(service=service, options=options)
 
-    WebDriverWait(driver, 20).until(
-        EC.presence_of_element_located((By.CLASS_NAME, "list-recent-events"))
-    )
-    print("Search results visible. Test passed!")
+    try:
+        driver.get("https://www.python.org")
+        print("Opened Python.org homepage.")
 
-finally:
-    driver.quit()
+        search_box = driver.find_element(By.ID, "id-search-field")
+        search_box.send_keys("Jenkins")
+        search_box.submit()
+        print("Submitted search query.")
+
+        WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.CLASS_NAME, "list-recent-events"))
+        )
+        print("Search results visible. Test passed!")
+
+    finally:
+        driver.quit()
+        print("Browser closed.")
+
+if __name__ == "__main__":
+    test_python_org()
