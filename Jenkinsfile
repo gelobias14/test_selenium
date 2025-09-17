@@ -16,7 +16,7 @@ pipeline {
                     echo ===== Running Selenium Tests =====
                     python -m pip install --upgrade pip
                     python -m pip install -r requirements.txt
-                    python -m pytest test/ --html=report.html --self-contained-html
+                    python -m pytest -s test/ --html=report.html --self-contained-html
                     echo ===== Tests Completed =====
                 """
             }
