@@ -1,3 +1,4 @@
+import pytest
 from selenium import webdriver
 from selenium.webdriver.edge.service import Service
 from selenium.webdriver.edge.options import Options
@@ -5,9 +6,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-def test_python_org():
-    print("Starting Python.org test...")
 
+@pytest.fixture
+def driver():
+    """Fixture to initialize and quit Edge WebDriver."""
     service = Service(executable_path="C:/WebDriver/msedgedriver.exe")
     options = Options()
     options.use_chromium = True
@@ -16,24 +18,34 @@ def test_python_org():
     options.add_argument("--window-size=1920,1080")
 
     driver = webdriver.Edge(service=service, options=options)
+    yield driver
+    driver.quit()
 
-    try:
-        driver.get("https://www.python.org")
-        print("Opened Python.org homepage.")
 
-        search_box = driver.find_element(By.ID, "id-search-field")
-        search_box.send_keys("Jenkins")
-        search_box.submit()
-        print("Submitted search query.")
+def test_python_org_title(driver):
+    """Test 1: Verify Python.org title contains 'Python'."""
+    driver.get("https://www.python.org")
+    assert "Python" in driver.title
+    print("✅ Test 1 Passed: Title contains 'Python'")
 
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.CLASS_NAME, "list-recent-events"))
-        )
-        print("Search results visible. Test passed!")
 
-    finally:
-        driver.quit()
-        print("Browser closed.")
+def test_python_org_search(driver):
+    """Test 2: Perform a search for 'Jenkins' and check results page."""
+    driver.get("https://www.python.org")
+    search_box = driver.find_element(By.ID, "id-search-field")
+    search_box.send_keys("Jenkins")
+    search_box.submit()
 
-if __name__ == "__main__":
-    test_python_org()
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.CLASS_NAME, "list-recent-events"))
+    )
+    assert "Search" in driver.title
+    print("✅ Test 2 Passed: Search results loaded")
+
+
+def test_python_org_downloads(driver):
+    """Test 3: Verify that 'Downloads' link is visible."""
+    driver.get("https://www.python.org")
+    downloads_link = driver.find_element(By.LINK_TEXT, "Downloads")
+    assert downloads_link.is_displayed()
+    print("✅ Test 3 Passed: Downloads link is visible")
