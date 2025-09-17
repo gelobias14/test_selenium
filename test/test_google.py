@@ -26,7 +26,7 @@ def test_python_org_title(driver):
     """Test 1: Verify Python.org title contains 'Python'."""
     driver.get("https://www.python.org")
     assert "Python" in driver.title
-    print("✅ Test 1 Passed: Title contains 'Python'")
+    print("Test 1 Passed: Title contains 'Python'")
 
 
 def test_python_org_search(driver):
@@ -46,7 +46,7 @@ def test_python_org_search(driver):
     # Validate at least one search result is present
     items = results.find_elements(By.TAG_NAME, "li")
     assert len(items) > 0, "No search results found"
-    print(f"✅ Test 2 Passed: Found {len(items)} results for 'Jenkins'")
+    print(f"Test 2 Passed: Found {len(items)} results for 'Jenkins'")
 
 
 
@@ -55,4 +55,4 @@ def test_python_org_downloads(driver):
     driver.get("https://www.python.org")
     downloads_link = driver.find_element(By.LINK_TEXT, "Downloads")
     assert downloads_link.is_displayed()
-    print("✅ Test 3 Passed: Downloads link is visible")
+    print("Test 3 Passed: Downloads link is visible")
