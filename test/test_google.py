@@ -30,17 +30,24 @@ def test_python_org_title(driver):
 
 
 def test_python_org_search(driver):
-    """Test 2: Perform a search for 'Jenkins' and check results page."""
+    """Test 2: Perform a search for 'Jenkins' and check results are displayed."""
     driver.get("https://www.python.org")
+
     search_box = driver.find_element(By.ID, "id-search-field")
-    search_box.send_keys("Python")
+    search_box.clear()
+    search_box.send_keys("Jenkins")
     search_box.submit()
 
-    WebDriverWait(driver, 10).until(
+    # Wait for results container
+    results = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located((By.CLASS_NAME, "list-recent-events"))
     )
-    assert "Search" in driver.title
-    print("✅ Test 2 Passed: Search results loaded")
+
+    # Validate at least one search result is present
+    items = results.find_elements(By.TAG_NAME, "li")
+    assert len(items) > 0, "No search results found"
+    print(f"✅ Test 2 Passed: Found {len(items)} results for 'Jenkins'")
+
 
 
 def test_python_org_downloads(driver):
