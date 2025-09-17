@@ -33,7 +33,7 @@ def test_python_org_search(driver):
     """Test 2: Perform a search for 'Jenkins' and check results page."""
     driver.get("https://www.python.org")
     search_box = driver.find_element(By.ID, "id-search-field")
-    search_box.send_keys("Jenkins")
+    search_box.send_keys("Python")
     search_box.submit()
 
     WebDriverWait(driver, 10).until(
